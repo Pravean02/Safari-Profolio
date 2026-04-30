@@ -118,14 +118,25 @@ h2 { text-align: center; font-size: 2.2rem; margin-bottom: 2rem; color: var(--pr
     background-color: var(--secondary-color);
     color: var(--white);
     border-radius: 50%;
+    
+    /* Flexbox properties (keeps text initials centered if other team members still use them) */
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 1.5rem;
     font-weight: bold;
     margin: 0 auto 1rem;
+    
+    /* NEW: Ensures the image fills the circle perfectly without stretching */
+    object-fit: cover;
+    
+    /* NEW: Adds a subtle, professional shadow behind the image */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    border: 2px solid var(--white);
 }
-
+.team-card a i {
+    margin-right: 5px;
+}
 /* --- Accordion (Milestones) --- */
 .accordion-item { border: 1px solid var(--bg-dark); margin-bottom: 10px; border-radius: 5px; overflow: hidden; background: var(--white); }
 .accordion-header {
