@@ -170,3 +170,21 @@ footer { background-color: var(--primary-color); color: var(--white); text-align
     .hamburger { display: flex; }
     .hero h1 { font-size: 2rem; }
 }
+
+.fade-in-down {
+    opacity: 0;
+    transform: translateY(-60px); /* Starts 60px above its final position */
+    transition: opacity 0.8s cubic-bezier(0.25, 0.8, 0.25, 1), 
+                transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+    will-change: opacity, transform; /* Optimizes browser performance */
+}
+
+.fade-in-down.visible {
+    opacity: 1;
+    transform: translateY(0); /* Drops down to original position */
+}
+
+/* Optional: Stagger the cards so they drop in one after another */
+.grid-2 .card:nth-child(2),
+.grid-3 .card:nth-child(2) { transition-delay: 0.15s; }
+.grid-3 .card:nth-child(3) { transition-delay: 0.3s; }
