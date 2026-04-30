@@ -171,11 +171,4 @@ footer { background-color: var(--primary-color); color: var(--white); text-align
     .hero h1 { font-size: 2rem; }
 }
 
-.fade-in-down {
-    opacity: 0;
-    transform: translateY(-60px); /* Starts 60px above its final position */
-    transition: opacity 0.8s cubic-bezier(0.25, 0.8, 0.25, 1), 
-                transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
-    will-change: opacity, transform; /* Optimizes browser performance */
-}
 
