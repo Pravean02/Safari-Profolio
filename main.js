@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (hamburger && navLinks) {
         hamburger.addEventListener("click", () => {
             navLinks.classList.toggle("active");
+            hamburger.classList.toggle("active");
         });
     }
 
@@ -13,6 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
         link.addEventListener("click", () => {
             if (navLinks && navLinks.classList.contains("active")) {
                 navLinks.classList.remove("active");
+                if (hamburger) hamburger.classList.remove("active");
             }
         });
     });
@@ -30,12 +32,44 @@ document.addEventListener("DOMContentLoaded", () => {
                 const elementPosition = targetElement.getBoundingClientRect().top;
                 const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
                 window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+                
+                // Add active class to nav links
+                updateActiveNavLink(targetId);
             }
         });
     });
 
+    // --- 3. Update Active Nav Link on Scroll ---
+    function updateActiveNavLink(id) {
+        document.querySelectorAll(".nav-links a").forEach((link) => {
+            link.classList.remove("active");
+        });
+        const activeLink = document.querySelector(`.nav-links a[href="#${id}"]`);
+        if (activeLink) {
+            activeLink.classList.add("active");
+        }
+    }
 
-    // --- 3. Interactive Milestone Accordion ---
+    // Update active link on scroll
+    window.addEventListener("scroll", () => {
+        let currentSection = "";
+        const sections = document.querySelectorAll("section");
+        
+        sections.forEach((section) => {
+            const sectionTop = section.offsetTop - 100;
+            const sectionHeight = section.clientHeight;
+            
+            if (window.pageYOffset >= sectionTop && window.pageYOffset < sectionTop + sectionHeight) {
+                currentSection = section.getAttribute("id");
+            }
+        });
+
+        if (currentSection) {
+            updateActiveNavLink(currentSection);
+        }
+    });
+
+    // --- 4. Interactive Milestone Accordion ---
     const accordionHeaders = document.querySelectorAll(".accordion-header");
     accordionHeaders.forEach((header) => {
         header.addEventListener("click", function () {
@@ -73,7 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // --- 4. Document Links Handler ---
+    // --- 5. Document Links Handler ---
     const docLinks = document.querySelectorAll(".doc-link");
     docLinks.forEach((link) => {
         link.addEventListener("click", async function (e) {
@@ -114,61 +148,61 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // --- 6. Hero Image Slider ---
-    const slides = document.querySelectorAll('.slide');
-    const dots = document.querySelectorAll('.dot');
-    const prevBtn = document.querySelector('.prev-arrow');
-    const nextBtn = document.querySelector('.next-arrow');
-    let currentSlide = 0;
-    const slideInterval = 5000; // Time per slide (5000ms = 5 seconds)
-    let sliderTimer;
+const slides = document.querySelectorAll('.slide');
+const dots = document.querySelectorAll('.dot');
+const prevBtn = document.querySelector('.prev-arrow');
+const nextBtn = document.querySelector('.next-arrow');
+let currentSlide = 0;
+const slideInterval = 5000; // Time per slide (5000ms = 5 seconds)
+let sliderTimer;
 
-    // Function to change the slide
-    function showSlide(index) {
-        // Handle looping around the ends
-        if (index >= slides.length) currentSlide = 0;
-        else if (index < 0) currentSlide = slides.length - 1;
-        else currentSlide = index;
+// Function to change the slide
+function showSlide(index) {
+    // Handle looping around the ends
+    if (index >= slides.length) currentSlide = 0;
+    else if (index < 0) currentSlide = slides.length - 1;
+    else currentSlide = index;
 
-        // Remove active class from all slides and dots
-        slides.forEach(slide => slide.classList.remove('active'));
-        dots.forEach(dot => dot.classList.remove('active'));
+    // Remove active class from all slides and dots
+    slides.forEach(slide => slide.classList.remove('active'));
+    dots.forEach(dot => dot.classList.remove('active'));
 
-        // Add active class to the current slide and dot
-        slides[currentSlide].classList.add('active');
-        dots[currentSlide].classList.add('active');
-    }
+    // Add active class to the current slide and dot
+    slides[currentSlide].classList.add('active');
+    dots[currentSlide].classList.add('active');
+}
 
-    // Go to next slide
-    function nextSlide() {
-        showSlide(currentSlide + 1);
-        resetTimer();
-    }
+// Go to next slide
+function nextSlide() {
+    showSlide(currentSlide + 1);
+    resetTimer();
+}
 
-    // Go to previous slide
-    function prevSlide() {
-        showSlide(currentSlide - 1);
-        resetTimer();
-    }
+// Go to previous slide
+function prevSlide() {
+    showSlide(currentSlide - 1);
+    resetTimer();
+}
 
-    // Reset the automatic timer when user manually clicks
-    function resetTimer() {
-        clearInterval(sliderTimer);
-        sliderTimer = setInterval(nextSlide, slideInterval);
-    }
-
-    // Event Listeners for Arrows
-    if(nextBtn && prevBtn) {
-        nextBtn.addEventListener('click', nextSlide);
-        prevBtn.addEventListener('click', prevSlide);
-    }
-
-    // Event Listeners for Dots
-    dots.forEach((dot, index) => {
-        dot.addEventListener('click', () => {
-            showSlide(index);
-            resetTimer();
-        });
-    });
-
-    // Start the automatic slideshow
+// Reset the automatic timer when user manually clicks
+function resetTimer() {
+    clearInterval(sliderTimer);
     sliderTimer = setInterval(nextSlide, slideInterval);
+}
+
+// Event Listeners for Arrows
+if(nextBtn && prevBtn) {
+    nextBtn.addEventListener('click', nextSlide);
+    prevBtn.addEventListener('click', prevSlide);
+}
+
+// Event Listeners for Dots
+dots.forEach((dot, index) => {
+    dot.addEventListener('click', () => {
+        showSlide(index);
+        resetTimer();
+    });
+});
+
+// Start the automatic slideshow
+sliderTimer = setInterval(nextSlide, slideInterval);
