@@ -54,19 +54,109 @@ h2 { text-align: center; font-size: 2.2rem; margin-bottom: 2rem; color: var(--pr
 .text-center { text-align: center; }
 
 /* --- Hero Section --- */
+/* --- Hero Section & Slider --- */
 .hero {
+    position: relative;
     height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    background: linear-gradient(rgba(10, 61, 98, 0.85), rgba(10, 61, 98, 0.85)), url('https://images.unsplash.com/photo-1539667468225-eebb663053e6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover;
     color: var(--white);
+    overflow: hidden; /* Keeps the slides contained */
 }
+
+/* Container for the background images */
+.slider-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1; /* Puts background behind text */
+}
+
+/* Individual Slide Styling */
+.slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-position: center;
+    background-size: cover;
+    opacity: 0;
+    transition: opacity 1s ease-in-out; /* Smooth cross-fade effect */
+}
+
+.slide.active {
+    opacity: 1;
+}
+
+/* Ensure content stays on top of the images */
+.hero-content {
+    position: relative;
+    z-index: 2; 
+}
+
 .hero h1 { font-size: 3rem; margin-bottom: 1rem; color: var(--white); }
 .hero p { font-size: 1.2rem; max-width: 800px; margin: 0 auto 2rem; color: #e0e0e0; }
-.btn { display: inline-block; padding: 12px 30px; background-color: var(--secondary-color); color: var(--white); border-radius: 5px; font-weight: bold; border: none; cursor: pointer; transition: background 0.3s; }
+
+.btn { 
+    display: inline-block; padding: 12px 30px; background-color: var(--secondary-color); 
+    color: var(--white); border-radius: 5px; font-weight: bold; border: none; 
+    cursor: pointer; transition: background 0.3s; 
+}
 .btn:hover { background-color: #2c8c89; color: var(--white);}
+
+/* --- Slider Controls (Arrows & Dots) --- */
+.slide-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.15);
+    border: none;
+    color: var(--white);
+    font-size: 2rem;
+    padding: 15px 20px;
+    cursor: pointer;
+    z-index: 3;
+    transition: background 0.3s, transform 0.2s;
+    border-radius: 50%;
+}
+
+.slide-arrow:hover { background: rgba(56, 173, 169, 0.8); transform: translateY(-50%) scale(1.1); }
+.prev-arrow { left: 30px; }
+.next-arrow { right: 30px; }
+
+.slider-dots {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 12px;
+    z-index: 3;
+}
+
+.dot {
+    width: 14px;
+    height: 14px;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.dot.active, .dot:hover {
+    background: var(--secondary-color);
+    transform: scale(1.3);
+}
+
+/* Hide arrows on very small screens to save space */
+@media (max-width: 768px) {
+    .slide-arrow { display: none; }
+}
 
 /* --- Grids & Interactive Cards --- */
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem; }
