@@ -108,6 +108,10 @@ h2 { text-align: center; font-size: 2.2rem; margin-bottom: 2rem; color: var(--pr
     background-size: cover;
     opacity: 0;
     transition: opacity 1s ease-in-out; /* Smooth cross-fade effect */
+
+    /* Ensure the background images actually paint (common issue on some browsers) */
+    background-repeat: no-repeat;
+    will-change: opacity;
 }
 
 .slide.active {
