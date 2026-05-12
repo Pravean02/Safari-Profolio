@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const elementPosition = targetElement.getBoundingClientRect().top;
                 const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
                 window.scrollTo({ top: offsetPosition, behavior: "smooth" });
-                
+
                 // Add active class to nav links
                 updateActiveNavLink(targetId);
             }
@@ -54,11 +54,11 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener("scroll", () => {
         let currentSection = "";
         const sections = document.querySelectorAll("section");
-        
+
         sections.forEach((section) => {
             const sectionTop = section.offsetTop - 100;
             const sectionHeight = section.clientHeight;
-            
+
             if (window.pageYOffset >= sectionTop && window.pageYOffset < sectionTop + sectionHeight) {
                 currentSection = section.getAttribute("id");
             }
@@ -145,64 +145,60 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     });
-});
 
-// --- 6. Hero Image Slider ---
-const slides = document.querySelectorAll('.slide');
-const dots = document.querySelectorAll('.dot');
-const prevBtn = document.querySelector('.prev-arrow');
-const nextBtn = document.querySelector('.next-arrow');
-let currentSlide = 0;
-const slideInterval = 5000; // Time per slide (5000ms = 5 seconds)
-let sliderTimer;
+    // --- 6. Hero Image Slider ---
+    // FIX: Slider code must run AFTER DOM is ready.
+    const slides = document.querySelectorAll('.slide');
+    const dots = document.querySelectorAll('.dot');
+    const prevBtn = document.querySelector('.prev-arrow');
+    const nextBtn = document.querySelector('.next-arrow');
 
-// Function to change the slide
-function showSlide(index) {
-    // Handle looping around the ends
-    if (index >= slides.length) currentSlide = 0;
-    else if (index < 0) currentSlide = slides.length - 1;
-    else currentSlide = index;
+    if (!slides.length || !dots.length) return;
 
-    // Remove active class from all slides and dots
-    slides.forEach(slide => slide.classList.remove('active'));
-    dots.forEach(dot => dot.classList.remove('active'));
+    let currentSlide = 0;
+    const slideInterval = 5000;
+    let sliderTimer;
 
-    // Add active class to the current slide and dot
-    slides[currentSlide].classList.add('active');
-    dots[currentSlide].classList.add('active');
-}
+    function showSlide(index) {
+        if (index >= slides.length) currentSlide = 0;
+        else if (index < 0) currentSlide = slides.length - 1;
+        else currentSlide = index;
 
-// Go to next slide
-function nextSlide() {
-    showSlide(currentSlide + 1);
-    resetTimer();
-}
+        slides.forEach(slide => slide.classList.remove('active'));
+        dots.forEach(dot => dot.classList.remove('active'));
 
-// Go to previous slide
-function prevSlide() {
-    showSlide(currentSlide - 1);
-    resetTimer();
-}
+        slides[currentSlide].classList.add('active');
+        if (dots[currentSlide]) dots[currentSlide].classList.add('active');
+    }
 
-// Reset the automatic timer when user manually clicks
-function resetTimer() {
-    clearInterval(sliderTimer);
-    sliderTimer = setInterval(nextSlide, slideInterval);
-}
-
-// Event Listeners for Arrows
-if(nextBtn && prevBtn) {
-    nextBtn.addEventListener('click', nextSlide);
-    prevBtn.addEventListener('click', prevSlide);
-}
-
-// Event Listeners for Dots
-dots.forEach((dot, index) => {
-    dot.addEventListener('click', () => {
-        showSlide(index);
+    function nextSlide() {
+        showSlide(currentSlide + 1);
         resetTimer();
-    });
-});
+    }
 
-// Start the automatic slideshow
-sliderTimer = setInterval(nextSlide, slideInterval);
+    function prevSlide() {
+        showSlide(currentSlide - 1);
+        resetTimer();
+    }
+
+    function resetTimer() {
+        clearInterval(sliderTimer);
+        sliderTimer = setInterval(nextSlide, slideInterval);
+    }
+
+    if (nextBtn && prevBtn) {
+        nextBtn.addEventListener('click', nextSlide);
+        prevBtn.addEventListener('click', prevSlide);
+    }
+
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+            showSlide(index);
+            resetTimer();
+        });
+    });
+
+    // Ensure first slide is visible and start autoplay
+    showSlide(0);
+    sliderTimer = setInterval(nextSlide, slideInterval);
+});
