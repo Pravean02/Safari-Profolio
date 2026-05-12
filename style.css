@@ -21,6 +21,29 @@ html { scroll-behavior: smooth; }
 body { color: var(--text-main); background-color: var(--bg-light); }
 a { text-decoration: none; color: var(--primary-color); }
 
+/* --- Navigation Animations --- */
+@keyframes slideDown {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+}
+
 /* --- Navigation --- */
 .navbar {
     display: flex;
@@ -33,6 +56,7 @@ a { text-decoration: none; color: var(--primary-color); }
     width: 100%;
     top: 0;
     z-index: 1000;
+    animation: slideDown 0.5s ease-out;
 }
 
 .logo { font-size: 1.5rem; font-weight: bold; color: var(--primary-color); }
@@ -255,8 +279,15 @@ footer { background-color: var(--primary-color); color: var(--white); text-align
         display: none; flex-direction: column; position: absolute; top: 60px; left: 0;
         width: 100%; background-color: var(--white); box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         text-align: center; padding: 1.5rem 0; gap: 1.5rem;
+        animation: slideDown 0.4s ease-out;
     }
-    .nav-links.active { display: flex; }
+    .nav-links.active { 
+        display: flex; 
+        animation: slideDown 0.4s ease-out;
+    }
+    .nav-links:not(.active) {
+        animation: slideUp 0.4s ease-out forwards;
+    }
     .hamburger { display: flex; }
     .hero h1 { font-size: 2rem; }
 }
