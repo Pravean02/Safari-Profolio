@@ -34,6 +34,66 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    // --- 6. Hero Image Slider ---
+    const slides = document.querySelectorAll('.slide');
+    const dots = document.querySelectorAll('.dot');
+    const prevBtn = document.querySelector('.prev-arrow');
+    const nextBtn = document.querySelector('.next-arrow');
+    let currentSlide = 0;
+    const slideInterval = 5000; // Time per slide (5000ms = 5 seconds)
+    let sliderTimer;
+
+    // Function to change the slide
+    function showSlide(index) {
+        // Handle looping around the ends
+        if (index >= slides.length) currentSlide = 0;
+        else if (index < 0) currentSlide = slides.length - 1;
+        else currentSlide = index;
+
+        // Remove active class from all slides and dots
+        slides.forEach(slide => slide.classList.remove('active'));
+        dots.forEach(dot => dot.classList.remove('active'));
+
+        // Add active class to the current slide and dot
+        slides[currentSlide].classList.add('active');
+        dots[currentSlide].classList.add('active');
+    }
+
+    // Go to next slide
+    function nextSlide() {
+        showSlide(currentSlide + 1);
+        resetTimer();
+    }
+
+    // Go to previous slide
+    function prevSlide() {
+        showSlide(currentSlide - 1);
+        resetTimer();
+    }
+
+    // Reset the automatic timer when user manually clicks
+    function resetTimer() {
+        clearInterval(sliderTimer);
+        sliderTimer = setInterval(nextSlide, slideInterval);
+    }
+
+    // Event Listeners for Arrows
+    if(nextBtn && prevBtn) {
+        nextBtn.addEventListener('click', nextSlide);
+        prevBtn.addEventListener('click', prevSlide);
+    }
+
+    // Event Listeners for Dots
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+            showSlide(index);
+            resetTimer();
+        });
+    });
+
+    // Start the automatic slideshow
+    sliderTimer = setInterval(nextSlide, slideInterval);
+
     // --- 3. Interactive Milestone Accordion ---
     const accordionHeaders = document.querySelectorAll(".accordion-header");
     accordionHeaders.forEach((header) => {
