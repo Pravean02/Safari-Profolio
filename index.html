@@ -31,10 +31,25 @@
 
     <main>
         <section id="home" class="hero">
-            <div class="container">
+            <div class="slider-container">
+                <div class="slide active" style="background-image: linear-gradient(rgba(10, 61, 98, 0.85), rgba(10, 61, 98, 0.85)), url('https://images.unsplash.com/photo-1539667468225-eebb663053e6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');"></div>
+                <div class="slide" style="background-image: linear-gradient(rgba(10, 61, 98, 0.85), rgba(10, 61, 98, 0.85)), url('https://images.unsplash.com/photo-1588598198321-16d0d8dc886f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');"></div>
+                <div class="slide" style="background-image: linear-gradient(rgba(10, 61, 98, 0.85), rgba(10, 61, 98, 0.85)), url('https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');"></div>
+            </div>
+
+            <div class="container hero-content">
                 <h1>Safari: An AI-Driven Sri Lankan Tour Guide</h1>
                 <p>An AI-powered computerized platform for tour guide booking that enhances trust, privacy, and intelligent matching through an LLM-based agent architecture.</p>
                 <a href="#about" class="btn">Learn More</a>
+            </div>
+
+            <button class="slide-arrow prev-arrow"><i class="fa-solid fa-chevron-left"></i></button>
+            <button class="slide-arrow next-arrow"><i class="fa-solid fa-chevron-right"></i></button>
+
+            <div class="slider-dots">
+                <span class="dot active"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
             </div>
         </section>
 
